@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Team vor einer modernen Arbeitswelt</title>
+  <desc id="desc">Abstrakte Illustration mehrerer Menschen vor Architektur und Himmel</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#24425f"/><stop offset="1" stop-color="#0a1724"/></linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#31c4b4"/><stop offset="1" stop-color="#0a6ed1"/></linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1280" cy="130" r="310" fill="#31c4b4" opacity=".13"/>
+  <circle cx="220" cy="760" r="420" fill="#0a6ed1" opacity=".17"/>
+  <path d="M0 650L260 470l230 115 260-260 240 190 240-300 370 305v380H0z" fill="#e9f4f7" opacity=".12"/>
+  <path d="M0 705L300 540l210 120 260-225 220 145 270-220 340 210v330H0z" fill="#07111b" opacity=".42"/>
+  <g transform="translate(720 260)">
+    <circle cx="80" cy="90" r="58" fill="#f0c6aa"/><path d="M25 87c8-70 117-77 125 2-30-12-55-35-69-62-11 30-29 48-56 60z" fill="#182b3d"/>
+    <path d="M-5 365c4-134 24-209 87-209s92 75 100 209z" fill="url(#glow)"/><path d="M62 157h39l-8 69H70z" fill="#edb695"/>
+  </g>
+  <g transform="translate(930 340)">
+    <circle cx="80" cy="80" r="52" fill="#c98561"/><path d="M30 72c3-64 103-75 111-4-34-3-69-17-91-39-4 18-10 31-20 43z" fill="#101820"/>
+    <path d="M1 340c5-120 22-192 80-192s87 72 94 192z" fill="#f2a900"/><path d="M62 147h36l-7 58H69z" fill="#b97857"/>
+  </g>
+  <g transform="translate(500 365)">
+    <circle cx="80" cy="76" r="50" fill="#d9a17f"/><path d="M28 75c5-62 101-72 105-2-21-7-40-23-54-43-12 20-28 35-51 45z" fill="#55362d"/>
+    <path d="M4 330c2-117 26-184 77-184 58 0 84 65 93 184z" fill="#ffffff"/><path d="M62 144h35l-7 57H69z" fill="#cd9272"/>
+  </g>
+  <rect x="0" y="0" width="1600" height="900" fill="url(#sky)" opacity=".18"/>
+</svg>

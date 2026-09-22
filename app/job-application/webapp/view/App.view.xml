@@ -1,0 +1,221 @@
+﻿<mvc:View
+  controllerName="job.application.controller.App"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:dnd="sap.ui.core.dnd"
+  xmlns:u="sap.ui.unified"
+  xmlns:f="sap.ui.layout.form"
+  xmlns:rte="sap.ui.richtexteditor"
+  xmlns:landing="job.application.control"
+  xmlns="sap.m">
+  <App busy="{= ${form>/busy} || ${ui>/busy} }">
+    <Page showHeader="false" enableScrolling="true" class="careerPage">
+      <content>
+        <VBox visible="{ui>/isLanding}" width="100%" class="landingRoot">
+          <customData>
+            <core:CustomData key="admin-mode" value="{= ${ui>/isAdmin} ? 'true' : 'false' }" writeToDom="true"/>
+          </customData>
+          <Toolbar visible="{ui>/isAdmin}" class="careerHeader">
+            <ToolbarSpacer/>
+            <Select selectedKey="{ui>/language}" change=".onLanguageChange" width="5rem" tooltip="{i18n>languageSelection}">
+              <core:Item key="de" text="DE"/>
+              <core:Item key="en" text="EN"/>
+            </Select>
+            <ObjectStatus visible="{ui>/isAdmin}" text="{i18n>adminMode}" icon="sap-icon://key-user-settings" state="Information"/>
+            <Select
+              visible="{ui>/isAdmin}"
+              enabled="{= !${ui>/editMode} }"
+              width="13rem"
+              selectedKey="{landing>/currentPageId}"
+              change=".onPageChange"
+              items="{landing>/pages}"
+              tooltip="{i18n>selectPage}"
+              class="adminPageSelect">
+              <core:Item key="{landing>ID}" text="{landing>title}"/>
+            </Select>
+            <CheckBox
+              visible="{ui>/isAdmin}"
+              enabled="{= !${ui>/editMode} &amp;&amp; !${landing>/currentPage/isHome} }"
+              selected="{path: 'landing>/currentPage/isHome', mode: 'OneWay'}"
+              text="{i18n>homePage}"
+              tooltip="{i18n>homePageHint}"
+              select=".onSetHomePage"/>
+            <Button visible="{ui>/isAdmin}" enabled="{= !${ui>/editMode} }" icon="sap-icon://add" type="Transparent" tooltip="{i18n>createPage}" press=".onOpenCreatePage"/>
+            <Button visible="{ui>/isAdmin}" enabled="{= !${ui>/editMode} }" icon="sap-icon://copy" type="Transparent" tooltip="{i18n>copyPage}" press=".onOpenCopyPage"/>
+            <Button visible="{ui>/isAdmin}" enabled="{= !${ui>/editMode} &amp;&amp; !${landing>/currentPage/isHome} }" icon="sap-icon://delete" type="Transparent" tooltip="{i18n>deletePage}" press=".onDeletePage"/>
+            <Button visible="{ui>/isAdmin}" enabled="{= !${ui>/editMode} }" text="{i18n>generateAi}" icon="sap-icon://ai" type="Transparent" tooltip="{i18n>generateAiHint}" press=".onOpenAiGenerator"/>
+            <Button visible="{ui>/showEditButton}" text="{i18n>editPage}" icon="sap-icon://edit" press=".onEnterEditMode"/>
+            <Button visible="{ui>/editMode}" text="{i18n>saveChanges}" icon="sap-icon://save" type="Emphasized" press=".onSaveLanding"/>
+            <Button visible="{ui>/editMode}" text="{i18n>cancelChanges}" press=".onCancelLandingEdit"/>
+          </Toolbar>
+
+          <HBox width="100%" alignItems="Start" class="landingEditorLayout">
+            <VBox width="100%" class="landingCanvas">
+              <layoutData>
+                <FlexItemData growFactor="1" shrinkFactor="1" baseSize="0%"/>
+              </layoutData>
+
+              <MessageStrip visible="{ui>/editMode}" text="{i18n>editModeHint}" type="Information" showIcon="true" class="landingEditHint" />
+
+              <landing:LandingBlocks id="landingBlocks" items="{landing>/blocks}" class="landingBlocks">
+            <landing:customData>
+              <core:CustomData key="edit-mode" value="{= ${ui>/editMode} ? 'true' : 'false' }" writeToDom="true"/>
+            </landing:customData>
+            <landing:dragDropConfig>
+              <dnd:DragDropInfo sourceAggregation="items" targetAggregation="items" dropPosition="Between" enabled="{ui>/editMode}" drop=".onBlockDrop"/>
+            </landing:dragDropConfig>
+            <landing:items>
+              <VBox class="landingBlockShell">
+                <customData>
+                  <core:CustomData key="image-position" value="{landing>imagePosition}" writeToDom="true"/>
+                  <core:CustomData key="block-theme" value="{landing>theme}" writeToDom="true"/>
+                  <core:CustomData key="block-width" value="{landing>blockWidth}" writeToDom="true"/>
+                  <core:CustomData key="block-tag" value="{landing>blockTag}" writeToDom="true"/>
+                  <core:CustomData key="transparent-background" value="{= ${landing>transparentBackground} ? 'true' : 'false' }" writeToDom="true"/>
+                </customData>
+
+                <Toolbar visible="{ui>/editMode}" class="blockMoveToolbar">
+                  <core:Icon src="sap-icon://move" decorative="false" tooltip="{i18n>dragBlock}" class="blockToolbarDragHandle sapUiTinyMarginEnd"/>
+                  <Title text="{= ${i18n>blockTitle} + ' ' + (${landing>sortOrder} / 10) }" level="H4" class="blockToolbarDragTitle"/>
+                  <Button text="{i18n>blockSettings}" icon="sap-icon://edit" type="Transparent" press=".onOpenBlockEditor"/>
+                  <Button icon="sap-icon://copy" type="Transparent" tooltip="{i18n>copyBlock}" press=".onOpenCopyBlock"/>
+                  <Button icon="sap-icon://navigation-up-arrow" type="Transparent" tooltip="{i18n>moveUp}" press=".onMoveBlockUp"/>
+                  <Button icon="sap-icon://navigation-down-arrow" type="Transparent" tooltip="{i18n>moveDown}" press=".onMoveBlockDown"/>
+                  <Button icon="sap-icon://delete" type="Transparent" tooltip="{i18n>deleteBlock}" press=".onDeleteBlock"/>
+                </Toolbar>
+
+                <landing:LandingBlock class="landingBlock" alignItems="Center" justifyContent="Center" backgroundEnabled="{= ${landing>imagePosition} === 'background' }" backgroundImage="{landing>imageUrl}" backgroundFit="{landing>imageFit}" backgroundCrop="{landing>backgroundCrop}" blockHeight="{landing>blockHeight}" contentWidth="{landing>contentWidth}" paddingTop="{landing>paddingTop}" paddingRight="{landing>paddingRight}" paddingBottom="{landing>paddingBottom}" paddingLeft="{landing>paddingLeft}">
+                  <Image visible="{= !!${landing>imageUrl} &amp;&amp; ${landing>imagePosition} !== 'background' }" src="{landing>imageUrl}" alt="{landing>imageAlt}" decorative="false" densityAware="false" width="{landing>imageWidth}" height="{landing>imageHeight}" class="landingBlockImage">
+                    <customData>
+                      <core:CustomData key="image-fit" value="{landing>imageFit}" writeToDom="true"/>
+                    </customData>
+                  </Image>
+                  <VBox width="100%" alignItems="{path: 'landing>textAlign', formatter: '.formatAlignItems'}" class="landingBlockContent">
+                    <customData>
+                      <core:CustomData key="text-align" value="{landing>textAlign}" writeToDom="true"/>
+                    </customData>
+                    <FormattedText htmlText="{landing>textHtml}" class="landingFormattedText"/>
+                    <landing:BlockMenu
+                      visible="{= ${landing>_menuItems}.length > 0 }"
+                      direction="{path: 'landing>menuOrientation', formatter: '.formatMenuDirection'}"
+                      menuGap="{landing>menuGap}"
+                      fontSize="{landing>menuFontSize}"
+                      textColor="{landing>menuTextColor}"
+                      textEffect="{landing>menuTextEffect}"
+                      wrap="Wrap"
+                      class="landingBlockMenu"
+                      items="{landing>_menuItems}">
+                      <landing:items>
+                        <Link text="{landing>label}" tooltip="{landing>target}" press=".onBlockMenuItemPress" class="landingBlockMenuItem"/>
+                      </landing:items>
+                    </landing:BlockMenu>
+                    <HBox visible="{= !!${landing>buttonText} }" width="100%" justifyContent="{parts: [{path: 'landing>buttonAlign'}, {path: 'landing>textAlign'}], formatter: '.formatButtonJustify'}" class="landingCtaRow">
+                      <landing:LandingButton text="{landing>buttonText}" type="{landing>buttonType}" width="{landing>buttonWidth}" buttonHeight="{landing>buttonHeight}" borderRadius="{landing>buttonBorderRadius}" press=".onLandingButtonPress" class="landingCta"/>
+                    </HBox>
+                  </VBox>
+                </landing:LandingBlock>
+              </VBox>
+            </landing:items>
+              </landing:LandingBlocks>
+
+              <VBox visible="{ui>/editMode}" alignItems="Center" class="addBlockArea">
+                <Button text="{i18n>addBlock}" icon="sap-icon://add" type="Emphasized" press=".onAddBlock"/>
+              </VBox>
+            </VBox>
+
+            <core:Fragment fragmentName="job.application.view.BlockEditor" type="XML"/>
+            <core:Fragment fragmentName="job.application.view.ThemeEditor" type="XML"/>
+          </HBox>
+
+        </VBox>
+
+        <VBox visible="{ui>/isSearch}" width="100%" class="searchRoot">
+          <Toolbar class="careerHeader">
+            <Button icon="sap-icon://nav-back" type="Transparent" tooltip="{i18n>backToLanding}" press=".onNavigateHome"/>
+            <Title text="{i18n>applicationPageTitle}" level="H2"/>
+            <ToolbarSpacer/>
+            <Select selectedKey="{ui>/language}" change=".onLanguageChange" width="5rem" tooltip="{i18n>languageSelection}">
+              <core:Item key="de" text="DE"/>
+              <core:Item key="en" text="EN"/>
+            </Select>
+            <Button text="{i18n>landingHome}" type="Transparent" press=".onNavigateHome"/>
+          </Toolbar>
+
+          <VBox class="sapUiResponsiveContentPadding formShell" width="100%">
+            <ObjectStatus text="{i18n>privacyHint}" icon="sap-icon://shield" state="Information" class="sapUiSmallMarginBottom"/>
+
+            <Panel headerText="{i18n>resumeSection}" expandable="false" class="sapUiSmallMarginBottom">
+              <VBox class="sapUiSmallMargin">
+                <Label text="{i18n>resumeLabel}" required="true"/>
+                <u:FileUploader id="resumeUploader" width="100%" fileType="pdf,doc,docx,odt,rtf" maximumFileSize="10" placeholder="{i18n>resumePlaceholder}" change=".onResumeChange" typeMissmatch=".onUploadError" fileSizeExceed=".onUploadError"/>
+                <Button text="{i18n>analyzeButton}" icon="sap-icon://inspection" type="Emphasized" enabled="{form>/canAnalyze}" press=".onAnalyze" class="sapUiSmallMarginTop alignSelfStart"/>
+              </VBox>
+            </Panel>
+
+            <Panel headerText="{i18n>applicationSection}" expandable="false" class="sapUiSmallMarginBottom">
+              <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="4" columnsXL="2" columnsL="2">
+                <Label text="{i18n>jobTitle}"/><Input value="{form>/jobTitle}"/>
+                <Label text="{i18n>company}"/><Input value="{form>/company}"/>
+                <Label text="{i18n>firstName}" required="true"/><Input value="{form>/firstName}"/>
+                <Label text="{i18n>lastName}" required="true"/><Input value="{form>/lastName}"/>
+                <Label text="{i18n>email}" required="true"/><Input type="Email" value="{form>/email}"/>
+                <Label text="{i18n>phone}"/><Input type="Tel" value="{form>/phone}"/>
+                <Label text="{i18n>street}"/><Input value="{form>/street}"/>
+                <Label text="{i18n>postalCode}"/><Input value="{form>/postalCode}"/>
+                <Label text="{i18n>city}"/><Input value="{form>/city}"/>
+                <Label text="{i18n>country}"/><Input value="{form>/country}"/>
+                <Label text="LinkedIn"/><Input value="{form>/linkedIn}"/>
+                <Label text="{i18n>currentTitle}"/><Input value="{form>/currentTitle}"/>
+                <Label text="{i18n>skills}"/><TextArea value="{form>/skills}" rows="3" growing="true"/>
+                <Label text="{i18n>languages}"/><Input value="{form>/languages}"/>
+                <Label text="{i18n>coverLetter}"/><TextArea value="{form>/coverLetter}" rows="6" growing="true"/>
+              </f:SimpleForm>
+            </Panel>
+
+            <Panel headerText="{i18n>attachmentsSection}" expandable="false" class="sapUiSmallMarginBottom">
+              <VBox class="sapUiSmallMargin">
+                <u:FileUploader id="attachmentUploader" width="100%" multiple="true" fileType="pdf,doc,docx,odt,rtf,png,jpg,jpeg" maximumFileSize="10" placeholder="{i18n>attachmentsPlaceholder}" change=".onAttachmentsChange" typeMissmatch=".onUploadError" fileSizeExceed=".onUploadError"/>
+                <Text text="{form>/attachmentNames}" wrapping="true" class="sapUiTinyMarginTop"/>
+              </VBox>
+            </Panel>
+
+            <Panel headerText="{i18n>captchaSection}" expandable="false" class="sapUiSmallMarginBottom">
+              <VBox class="sapUiSmallMargin">
+                <Text text="{i18n>captchaHint}" wrapping="true" class="sapUiTinyMarginBottom"/>
+                <Label text="{form>/captchaLabel}" labelFor="captchaAnswerInput" required="true"/>
+                <HBox alignItems="Center" wrap="Wrap" class="captchaRow">
+                  <Image src="{form>/captchaImage}" alt="{form>/captchaLabel}" decorative="false" densityAware="false" class="captchaChallengeImage"/>
+                  <Input id="captchaAnswerInput" value="{form>/captchaAnswer}" type="Number" width="7rem" placeholder="{i18n>captchaAnswerPlaceholder}"/>
+                  <Button icon="sap-icon://refresh" type="Transparent" tooltip="{i18n>captchaRefresh}" press=".onCaptchaRefresh"/>
+                </HBox>
+              </VBox>
+            </Panel>
+
+            <HBox width="100%" alignItems="Center" wrap="Wrap" class="consentEmailRow sapUiSmallMarginBottom">
+              <CheckBox selected="{form>/consent}" text="{i18n>consentText}">
+                <layoutData>
+                  <FlexItemData growFactor="1" shrinkFactor="1"/>
+                </layoutData>
+              </CheckBox>
+              <Label text="{i18n>recipientEmail}" labelFor="recipientEmailInput" required="true"/>
+              <Input
+                id="recipientEmailInput"
+                type="Email"
+                value="{form>/recipientEmail}"
+                valueLiveUpdate="true"
+                placeholder="{i18n>recipientEmailPlaceholder}"
+                width="20rem"/>
+            </HBox>
+            <Button
+              text="{i18n>submitButton}"
+              icon="sap-icon://email"
+              type="Emphasized"
+              enabled="{parts: [{path: 'form>/consent'}, {path: 'form>/recipientEmail'}], formatter: '.formatCanSubmit'}"
+              press=".onSubmit"
+              width="14rem"/>
+          </VBox>
+        </VBox>
+      </content>
+    </Page>
+  </App>
+</mvc:View>

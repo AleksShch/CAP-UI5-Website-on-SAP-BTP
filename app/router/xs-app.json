@@ -1,0 +1,78 @@
+{
+  "welcomeFile": "/job-application/webapp/index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/admin/?$",
+      "target": "/job-application/webapp/index.html",
+      "destination": "srv-api",
+      "authenticationType": "xsuaa",
+      "scope": "$XSAPPNAME.ApplicationAdmin",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/odata/v4/landing-admin(.*)$",
+      "target": "/odata/v4/landing-admin$1",
+      "destination": "srv-api",
+      "authenticationType": "xsuaa",
+      "scope": "$XSAPPNAME.ApplicationAdmin",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/odata/v4/job-applications(.*)$",
+      "target": "/odata/v4/job-applications$1",
+      "destination": "srv-api",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/odata/v4/landing(.*)$",
+      "target": "/odata/v4/landing$1",
+      "destination": "srv-api",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/search/?$",
+      "target": "/job-application/webapp/index.html",
+      "destination": "srv-api",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/api(.*)$",
+      "target": "/api$1",
+      "destination": "srv-api",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/job-application(.*)$",
+      "target": "/job-application$1",
+      "destination": "srv-api",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/$",
+      "target": "/job-application/webapp/index.html",
+      "destination": "srv-api",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/[a-z0-9][a-z0-9-]{0,79}/?$",
+      "target": "/job-application/webapp/index.html",
+      "destination": "srv-api",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/(.*)$",
+      "target": "/$1",
+      "destination": "srv-api",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    }
+  ]
+}

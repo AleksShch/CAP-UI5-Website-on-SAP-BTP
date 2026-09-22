@@ -1,0 +1,86 @@
+_schema-version: 3.3.0
+ID: cap-job-application
+version: 1.0.0
+description: "SAP CAP starter for PDF resume analysis and job application submission"
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npm run build:cf
+modules:
+  - name: cap-job-application-approuter
+    type: approuter.nodejs
+    path: app/router
+    parameters:
+      instances: 1
+      memory: 256M
+      disk-quota: 256M
+    build-parameters:
+      builder: npm-ci
+    properties:
+      INCOMING_CONNECTION_TIMEOUT: 900000
+      destinations: >
+        [
+          {
+            "name": "srv-api",
+            "url": "~{srv-api/srv-url}",
+            "forwardAuthToken": true,
+            "timeout": 900000
+          }
+        ]
+    requires:
+      - name: srv-api
+      - name: cap-job-application-auth
+
+  - name: cap-job-application-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    properties:
+      NODE_ENV: production
+      CDS_ENV: production
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: cap-job-application-auth
+      - name: cap-job-application-db
+
+  - name: cap-job-application-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: cap-job-application-db
+
+resources:
+  - name: cap-job-application-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+
+  - name: cap-job-application-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: cap-job-application-${org}-${space}
+        tenant-mode: dedicated
+        oauth2-configuration:
+          credential-types:
+            - "binding-secret"
+            - "x509"
+          redirect-uris:
+            - "https://sympacon-ts-gmbh-sap-build3-ozyx5bih-dev-cap-job-applic115d6e1a.cfapps.us10-001.hana.ondemand.com/**"

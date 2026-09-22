@@ -1,0 +1,68 @@
+{
+  "name": "cap-job-application",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SAP CAP starter for PDF resume analysis and job application submission",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "^22.13.0 || ^24.0.0"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "predev": "node scripts/ensure-local-db.js",
+    "dev": "cds watch",
+    "deploy": "cds deploy",
+    "build:cf": "cds build --production && node scripts/copy-ui.js",
+    "test": "node --test",
+    "check": "node --check server.js && node --check scripts/copy-ui.js && node --check scripts/ensure-local-db.js && node --check srv/routes.js && node --check srv/landing-admin-service.js && node --check srv/lib/openrouter.js && node --check srv/lib/captcha.js && node --check srv/lib/resume-analyzer.js && node --check srv/lib/resume-worker.js && node --check srv/lib/mailer.js && node --check app/job-application/webapp/control/LandingBlock.js && node --check app/job-application/webapp/control/LandingBlocks.js && node --check app/job-application/webapp/control/LandingButton.js && node --check app/job-application/webapp/control/BlockMenu.js && node --check app/job-application/webapp/control/FloatingPanel.js && node --check app/job-application/webapp/control/ColorSwatch.js && node --check app/job-application/webapp/controller/App.controller.js"
+  },
+  "dependencies": {
+    "@cap-js/hana": "3.1.1",
+    "@cap-js/sqlite": "^3.1.1",
+    "@sap/cds": "^10.1.0",
+    "@sap/xssec": "^4",
+    "express-rate-limit": "^8.1.0",
+    "fflate": "0.8.3",
+    "helmet": "^8.1.0",
+    "multer": "^2.0.2",
+    "nodemailer": "10.0.10",
+    "officeparser": "8.0.0",
+    "pdf-parse": "^2.4.5",
+    "sanitize-html": "2.17.7",
+    "word-extractor": "1.0.4"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^10.1.0"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "[development]": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": "db/applications.sqlite"
+          }
+        },
+        "[production]": {
+          "kind": "hana"
+        }
+      },
+      "auth": {
+        "[development]": {
+          "kind": "mocked",
+          "users": {
+            "admin": {
+              "password": "admin",
+              "roles": [
+                "ApplicationAdmin"
+              ]
+            }
+          }
+        },
+        "[production]": {
+          "kind": "xsuaa"
+        }
+      }
+    }
+  }
+}

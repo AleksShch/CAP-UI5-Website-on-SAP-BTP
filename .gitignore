@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+
+# Local environment and service credentials
+.env
+.env.*
+!.env.example
+default-env.json
+.cdsrc-private.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+
+# Local databases and runtime state
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+db/.local-schema-state
+
+# CAP and MTA build output
+gen/
+mta_archives/
+*.mtar
+.mta_build_tmp/
+
+# Test and coverage output
+coverage/
+.nyc_output/
+
+# Logs, caches, and temporary files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.tmp*
+tmp/
+.cache/
+
+# IDE and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini

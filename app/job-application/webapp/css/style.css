@@ -1,0 +1,739 @@
+:root {
+  --career-ink: #102a43;
+  --career-blue: #0a6ed1;
+  --career-teal: #1b9c8f;
+  --career-gold: #f2a900;
+  --career-surface: #f4f8fb;
+}
+
+html,
+body,
+#content {
+  height: 100%;
+}
+
+body.sapUiBody {
+  overflow: hidden;
+}
+
+.careerPage,
+.careerPage .sapMPageBgStandard,
+.landingRoot {
+  background: #fff;
+}
+
+.careerHeader.sapMTB {
+  min-height: 4.75rem;
+  padding: 0 3rem;
+  border: 0;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 0.125rem 0.75rem rgba(16, 42, 67, 0.09);
+  position: sticky !important;
+  top: 0;
+  z-index: 100;
+}
+
+.landingRoot[data-admin-mode="true"] {
+  padding-top: 4.75rem;
+  box-sizing: border-box;
+}
+
+.landingRoot[data-admin-mode="true"] .careerHeader.sapMTB {
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: auto !important;
+}
+
+.careerBrand {
+  gap: 0.75rem;
+}
+
+.careerBrandIcon {
+  background: linear-gradient(135deg, var(--career-blue), var(--career-teal));
+  color: #fff;
+}
+
+.careerBrandTitle {
+  color: var(--career-ink);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.careerBrandSubtitle {
+  color: #526b7f;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.landingEditHint {
+  margin: 1rem auto;
+  width: min(74rem, calc(100% - 2rem));
+}
+
+.landingBlocks {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+  position: relative;
+  width: 100%;
+}
+
+.landingBlockShell {
+  grid-column: span 12;
+  min-width: 0;
+  width: 100%;
+  position: relative;
+  scroll-margin-top: 4.75rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+.landingBlockShell[data-is-nested="true"] {
+  min-width: 0;
+  margin: 0;
+  z-index: 10;
+  box-shadow: 0 0.75rem 2rem rgba(16, 42, 67, 0.25);
+}
+
+.landingBlockShell[data-is-nested="true"] > .landingBlock {
+  width: 100%;
+  height: 100% !important;
+  min-height: 1rem !important;
+  padding: clamp(0.75rem, 3vw, 2.5rem);
+}
+
+.landingBlockShell[data-is-nested="true"][data-transparent-background="true"] {
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.landingBlockShell[data-is-nested="true"][data-transparent-background="true"] > .landingBlock {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+.landingBlockShell[data-is-nested="true"][data-transparent-background="true"] > .landingBlock::after {
+  display: none;
+}
+
+.landingBlocks[data-edit-mode="true"] .landingBlockShell,
+.landingBlocks[data-edit-mode="true"] .landingBlock {
+  overflow: visible;
+}
+
+.landingBlocks[data-edit-mode="true"] .landingBlock[data-compact-height="true"] {
+  overflow: hidden;
+}
+
+.landingBlocks[data-edit-mode="true"] .landingBlockShell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  border: 2px dashed rgba(10, 110, 209, 0.65);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.landingBlockShell[data-block-width="half"] {
+  grid-column: span 6;
+}
+
+.landingBlockShell[data-block-width="third"] {
+  grid-column: span 4;
+}
+
+.landingBlockShell[data-block-width="quarter"] {
+  grid-column: span 3;
+}
+
+.landingBlockShell:is([data-block-width="half"], [data-block-width="third"], [data-block-width="quarter"]):not([data-image-position="background"])
+  > .landingBlock {
+  flex-direction: column !important;
+}
+
+.landingBlockShell:is([data-block-width="half"], [data-block-width="third"], [data-block-width="quarter"])
+  > .landingBlock > .landingBlockImage {
+  order: 0;
+  max-width: 100%;
+}
+
+.landingBlock {
+  position: relative;
+  height: auto;
+  min-height: 1rem;
+  width: 100%;
+  max-width: 84rem;
+  margin: 0 auto;
+  padding: 4.5rem 4rem;
+  box-sizing: border-box;
+  gap: clamp(2rem, 5vw, 5rem);
+  overflow: hidden;
+}
+
+.landingBlockShell[data-block-theme="dark"] {
+  color: #fff;
+  background: #0d2438;
+}
+
+.landingBlockShell[data-block-theme="accent"] {
+  background: linear-gradient(135deg, #e9f5ff 0%, #e4f7f3 100%);
+}
+
+.landingBlockShell[data-block-theme="light"]:nth-child(even) {
+  background: var(--career-surface);
+}
+
+.landingBlockShell[data-custom-theme="true"] {
+  color: var(--landing-theme-text);
+  background: var(--landing-theme-background) !important;
+  outline: none;
+}
+
+.landingBlockShell[data-custom-theme="true"] > .landingBlock > .landingBlockContent {
+  color: var(--landing-theme-text);
+}
+
+.landingBlockShell[data-custom-theme="true"] > .landingBlock > .landingBlockContent .landingFormattedText h1,
+.landingBlockShell[data-custom-theme="true"] > .landingBlock > .landingBlockContent .landingFormattedText h2,
+.landingBlockShell[data-custom-theme="true"] > .landingBlock > .landingBlockContent .landingFormattedText h3 {
+  color: var(--landing-theme-heading);
+}
+
+.landingBlockShell[data-custom-theme="true"] > .landingBlock > .landingBlockContent .landingEyebrow {
+  color: var(--landing-theme-accent);
+}
+
+.landingBlockShell[data-custom-theme="true"] > .landingBlock > .landingBlockContent .landingHighlight,
+.landingBlockShell[data-custom-theme="true"] > .landingBlock > .landingBlockContent a {
+  color: var(--landing-theme-link);
+}
+
+.landingBlockShell[data-custom-theme="true"] > .landingBlock > .landingBlockContent .landingCta .sapMBtnInner {
+  color: var(--landing-theme-button-text) !important;
+  background: var(--landing-theme-button-background) !important;
+  border-color: var(--landing-theme-button-border) !important;
+}
+
+.landingBlockShell[data-custom-theme="true"] > .landingBlock > .landingBlockContent .landingCta .sapMBtnContent,
+.landingBlockShell[data-custom-theme="true"] > .landingBlock > .landingBlockContent .landingCta .sapUiIcon {
+  color: var(--landing-theme-button-text) !important;
+}
+
+.landingBlockImage {
+  flex: 0 0 auto;
+  border-radius: 1.5rem;
+  box-shadow: 0 1.25rem 3rem rgba(16, 42, 67, 0.16);
+  overflow: hidden;
+}
+
+.landingBlockImage[data-image-fit="cover"] img,
+.landingBlockImage[data-image-fit="cover"] {
+  object-fit: cover;
+}
+
+.landingBlockImage[data-image-fit="contain"] img,
+.landingBlockImage[data-image-fit="contain"] {
+  object-fit: contain;
+}
+
+.landingBlockShell[data-image-position="right"] > .landingBlock {
+  flex-direction: row-reverse;
+}
+
+.landingBlockShell[data-image-position="top"] > .landingBlock {
+  flex-direction: column;
+}
+
+.landingBlockShell[data-image-position="top"] > .landingBlock > .landingBlockImage {
+  max-width: 100%;
+}
+
+.landingBlockShell[data-image-position="background"] > .landingBlock {
+  width: 100%;
+  max-width: none;
+  min-height: 1rem;
+  z-index: 0;
+  isolation: isolate;
+}
+
+.landingBlockShell[data-image-position="background"] > .landingBlock::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(4, 18, 31, 0.78), rgba(4, 18, 31, 0.28));
+  z-index: 2;
+}
+
+.landingBlockShell[data-custom-theme="true"][data-image-position="background"] > .landingBlock::after {
+  background: var(--landing-theme-overlay);
+}
+
+.landingBlockShell[data-image-position="background"] > .landingBlock > .landingBlockContent {
+  max-width: 54rem;
+  color: #fff;
+  z-index: 3;
+}
+
+.landingBlockContent {
+  position: relative;
+  z-index: 2;
+}
+
+.landingBlockContent[data-text-align="left"] {
+  text-align: left;
+}
+
+.landingBlockContent[data-text-align="center"] {
+  text-align: center;
+}
+
+.landingBlockContent[data-text-align="right"] {
+  text-align: right;
+}
+
+.landingFormattedText {
+  width: 100%;
+  color: inherit;
+}
+
+.landingFormattedText h1,
+.landingFormattedText h2,
+.landingFormattedText h3 {
+  color: inherit;
+  margin: 0 0 1.25rem;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.landingFormattedText h1 {
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-weight: 900;
+}
+
+.landingFormattedText h2 {
+  color: var(--career-ink);
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-weight: 800;
+}
+
+.landingBlockShell[data-block-theme="dark"] > .landingBlock .landingFormattedText h2 {
+  color: #fff;
+}
+
+.landingFormattedText p,
+.landingFormattedText li {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.7;
+}
+
+.landingFormattedText .landingEyebrow {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--career-teal);
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.landingBlockShell[data-block-theme="dark"] > .landingBlock .landingEyebrow {
+  color: #66e0d1;
+}
+
+.landingFormattedText .landingLead {
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+}
+
+.landingFormattedText .landingHighlight {
+  color: var(--career-blue);
+  font-weight: 700;
+}
+
+.landingBlockMenu {
+  margin-top: 1.25rem;
+  max-width: 100%;
+}
+
+.landingBlockMenu .landingBlockMenuItem.sapMLnk {
+  color: var(--career-blue) !important;
+  font-size: var(--landing-menu-font-size, 1rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.landingBlockShell[data-block-theme="dark"] .landingBlockMenu .landingBlockMenuItem.sapMLnk {
+  color: #66e0d1 !important;
+}
+
+.landingBlockShell[data-custom-theme="true"] .landingBlockMenu .landingBlockMenuItem.sapMLnk {
+  color: var(--landing-theme-link) !important;
+}
+
+.landingBlockMenu[data-color-override="true"] .landingBlockMenuItem.sapMLnk {
+  color: var(--landing-menu-text-color) !important;
+}
+
+.landingBlockMenu[data-text-effect="shadow"] .landingBlockMenuItem.sapMLnk {
+  text-shadow: 0 0.15rem 0.25rem rgba(0, 0, 0, 0.5);
+}
+
+.landingBlockMenu[data-text-effect="outline"] .landingBlockMenuItem.sapMLnk {
+  text-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.8),
+    1px -1px 0 rgba(0, 0, 0, 0.8),
+    -1px 1px 0 rgba(0, 0, 0, 0.8),
+    1px 1px 0 rgba(0, 0, 0, 0.8);
+}
+
+.landingBlockMenu[data-text-effect="glow"] .landingBlockMenuItem.sapMLnk {
+  text-shadow: 0 0 0.35rem currentColor, 0 0 0.75rem currentColor;
+}
+
+.landingCtaRow {
+  margin: 0;
+}
+
+.landingCta {
+  margin: 0;
+}
+
+.landingCta .sapMBtnInner {
+  min-height: 3.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  font-weight: 800;
+}
+
+.landingCta .sapMBtnContent {
+  line-height: normal;
+}
+
+.blockMoveToolbar.sapMTB {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 40;
+  display: inline-flex;
+  width: max-content;
+  min-width: 0;
+  max-width: calc(100% - 2rem);
+  margin: 0;
+  overflow-x: auto;
+  border: 2px dashed rgba(10, 110, 209, 0.35);
+  border-radius: 0.75rem;
+  background: #fff;
+  cursor: default;
+  user-select: none;
+}
+
+.blockMoveToolbar .blockToolbarDragHandle,
+.blockMoveToolbar .blockToolbarDragTitle {
+  flex: 0 0 auto;
+  cursor: grab;
+  touch-action: none;
+}
+
+.blockMoveToolbar .blockToolbarDragHandle {
+  padding: 0.5rem 0.25rem;
+  color: var(--career-ink) !important;
+}
+
+.blockMoveToolbar[data-toolbar-dragging="true"] .blockToolbarDragHandle,
+.blockMoveToolbar[data-toolbar-dragging="true"] .blockToolbarDragTitle {
+  cursor: grabbing;
+}
+
+.landingEditorLayout {
+  min-width: 0;
+}
+
+.landingCanvas {
+  min-width: 0;
+}
+
+.blockEditorSidePanel {
+  position: fixed;
+  top: 50%;
+  right: 1rem;
+  z-index: 100;
+  transform: translateY(-50%);
+  min-width: 22rem;
+  max-width: min(64rem, calc(100vw - 12rem));
+  height: calc(100vh - 6.75rem);
+  margin: 0;
+  overflow: auto;
+  resize: horizontal;
+  direction: rtl;
+  border: 1px solid rgba(16, 42, 67, 0.18);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.75rem 2rem rgba(16, 42, 67, 0.18);
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.blockEditorSidePanel > * {
+  direction: ltr;
+}
+
+.themeEditorFloatingPanel {
+  position: fixed;
+  top: 50%;
+  left: 1rem;
+  z-index: 110;
+  transform: translateY(-50%);
+  min-width: 30rem;
+  max-width: min(52rem, calc(100vw - 2rem));
+  height: min(42rem, calc(100vh - 2rem));
+  margin: 0;
+  overflow: auto;
+  resize: both;
+  border: 1px solid rgba(16, 42, 67, 0.18);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.75rem 2rem rgba(16, 42, 67, 0.2);
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.themeEditorFloatingPanel[data-dragging="true"] .blockEditorDragHandle.sapMTB {
+  cursor: grabbing;
+}
+
+.themeEditorActions.sapMTB {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  border-top: 1px solid rgba(16, 42, 67, 0.12);
+  background: #fff;
+}
+
+.blockEditorActions.sapMTB {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  border-top: 1px solid rgba(16, 42, 67, 0.12);
+  background: #fff;
+}
+
+.blockEditorDragHandle.sapMTB {
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.blockEditorSidePanel[data-dragging="true"] .blockEditorDragHandle.sapMTB {
+  cursor: grabbing;
+}
+
+.blockEditorSidePanel .sapMLabel[title] {
+  cursor: help;
+}
+
+.blockEditorTabs {
+  width: 100%;
+}
+
+.blockEditorForm,
+.blockEditorSection {
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.themeColorField {
+  gap: 0.625rem;
+}
+
+.themeTemplateField {
+  gap: 0.25rem;
+}
+
+.themeTemplateField .sapMSlt {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.themeColorField .sapMInputBase {
+  flex: 1 1 auto;
+  width: auto !important;
+  min-width: 0;
+}
+
+.themeColorSwatchButton {
+  flex: 0 0 2.25rem;
+}
+
+.themeColorSwatchButton .sapMBtnInner {
+  min-width: 2.25rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 1px solid rgba(16, 42, 67, 0.28);
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+  background-color: #fff;
+  background-image:
+    linear-gradient(45deg, #d9e2e8 25%, transparent 25%),
+    linear-gradient(-45deg, #d9e2e8 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #d9e2e8 75%),
+    linear-gradient(-45deg, transparent 75%, #d9e2e8 75%);
+  background-position: 0 0, 0 0.375rem, 0.375rem -0.375rem, -0.375rem 0;
+  background-size: 0.75rem 0.75rem;
+}
+
+.richTextSection {
+  padding: 0 1rem 1rem;
+  gap: 0.5rem;
+}
+
+.addBlockArea {
+  padding: 2rem;
+  background: #eef5fa;
+}
+
+.careerFooter.sapMTB {
+  padding: 0 3rem;
+  min-height: 4.5rem;
+  color: #fff;
+  background: #0d2438;
+  border: 0;
+}
+
+.careerFooter .sapMText,
+.careerFooter .sapMLnk {
+  color: #fff;
+}
+
+.searchRoot {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #edf3f8 100%);
+}
+
+.formShell {
+  max-width: 1120px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.formShell .sapMPanel {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 0.125rem 0.75rem rgba(0, 36, 84, 0.08);
+}
+
+.alignSelfStart {
+  align-self: flex-start;
+}
+
+.captchaRow {
+  gap: 0.5rem;
+}
+
+.captchaChallengeImage {
+  width: 18.75rem;
+  height: 6rem;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 0.5rem;
+  object-fit: contain;
+  transform: rotate(-1deg);
+  user-select: none;
+}
+
+.consentEmailRow {
+  gap: 0.75rem;
+}
+
+.consentEmailRow .sapMLabel {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 900px) {
+  .careerHeader.sapMTB {
+    padding: 0 1rem;
+  }
+
+  .careerBrandSubtitle,
+  .careerHeader .sapMTBSeparator {
+    display: none;
+  }
+
+  .blockEditorSidePanel {
+    position: fixed;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    width: min(32rem, calc(100vw - 1rem)) !important;
+    min-width: min(22rem, calc(100vw - 1rem));
+    max-width: calc(100vw - 1rem);
+    height: calc(100vh - 5rem);
+    resize: none;
+    direction: ltr;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.75rem 2rem rgba(16, 42, 67, 0.18);
+  }
+
+  .themeEditorFloatingPanel {
+    position: fixed;
+    top: 50%;
+    left: 0.5rem;
+    transform: translateY(-50%);
+    width: min(34rem, calc(100vw - 1rem)) !important;
+    min-width: min(24rem, calc(100vw - 1rem));
+    max-width: calc(100vw - 1rem);
+    height: calc(100vh - 5rem);
+    resize: none;
+  }
+
+  .landingBlockShell:is([data-block-width="third"], [data-block-width="quarter"]) {
+    grid-column: span 6;
+  }
+
+  .landingBlock {
+    flex-direction: column !important;
+    padding: 3.25rem 1.5rem;
+  }
+
+  .landingBlockShell:not([data-image-position="background"]) > .landingBlock > .landingBlockImage {
+    order: 0;
+    width: 100% !important;
+    max-height: 24rem;
+  }
+
+  .landingBlockShell[data-image-position="background"] > .landingBlock {
+    min-height: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .careerHeader.sapMTB {
+    min-height: 4rem;
+  }
+
+  .landingRoot[data-admin-mode="true"] {
+    padding-top: 4rem;
+  }
+
+  .careerBrandIcon,
+  .careerHeader .sapMBtnContent:not(:empty) {
+    display: none;
+  }
+
+  .landingBlockShell,
+  .landingBlockShell:is([data-block-width="half"], [data-block-width="third"], [data-block-width="quarter"]) {
+    grid-column: span 12;
+  }
+
+  .landingBlock {
+    min-height: 1rem;
+  }
+
+  .landingFormattedText h1 {
+    font-size: 2.6rem;
+  }
+
+  .captchaChallengeImage {
+    width: 100%;
+  }
+}

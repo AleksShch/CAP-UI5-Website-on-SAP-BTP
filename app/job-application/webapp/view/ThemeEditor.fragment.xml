@@ -1,0 +1,112 @@
+<core:FragmentDefinition
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:f="sap.ui.layout.form"
+  xmlns:landing="job.application.control">
+  <landing:FloatingPanel
+    id="themeEditorPanel"
+    visible="{ui>/themeEditorOpen}"
+    width="34rem"
+    tooltip="{i18n>resizeEditorHint}"
+    class="themeEditorFloatingPanel">
+    <landing:headerToolbar>
+      <OverflowToolbar tooltip="{i18n>moveEditorHint}" class="blockEditorDragHandle">
+        <Title text="{i18n>themeCreateTitle}" level="H3"/>
+        <ToolbarSpacer/>
+        <Button icon="sap-icon://decline" type="Transparent" tooltip="{i18n>closeDialog}" press=".onCancelTheme"/>
+      </OverflowToolbar>
+    </landing:headerToolbar>
+    <landing:content>
+      <IconTabBar expandable="false">
+        <items>
+          <IconTabFilter key="general" text="{i18n>themeGeneral}" icon="sap-icon://palette">
+            <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" columnsXL="1" columnsL="1" class="themeEditorForm">
+              <Label text="{i18n>themeTemplate}" tooltip="{i18n>themeTemplateHint}"/>
+              <HBox width="100%" alignItems="Center" class="themeTemplateField">
+                <Select selectedKey="{landing>/themeTemplateKey}" items="{landing>/themeTemplates}" change=".onThemeTemplateChange" tooltip="{i18n>themeTemplateHint}">
+                  <core:Item key="{landing>key}" text="{landing>text}"/>
+                </Select>
+                <Button
+                  icon="sap-icon://delete"
+                  type="Transparent"
+                  enabled="{= ${landing>/themeTemplateKey} !== 'light' &amp;&amp; ${landing>/themeTemplateKey} !== 'dark' &amp;&amp; ${landing>/themeTemplateKey} !== 'accent' }"
+                  tooltip="{i18n>themeDelete}"
+                  press=".onDeleteThemeTemplate"/>
+              </HBox>
+              <Label text="{i18n>themeName}" required="true"/>
+              <Input value="{landing>/themeDraft/name}" maxLength="80" placeholder="{i18n>themeNamePlaceholder}"/>
+              <Label text="{i18n>themeBackgroundColor}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>/themeDraft/backgroundColor}" valueLiveUpdate="true" liveChange=".onThemeDraftChange" maxLength="7" placeholder="#FFFFFF"/>
+                <landing:ColorSwatch color="{landing>/themeDraft/backgroundColor}" width="2.25rem" press=".onOpenColorPicker" tooltip="{i18n>themeChooseColor}" class="themeColorSwatchButton"/>
+              </HBox>
+              <Label text="{i18n>themeTextColor}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>/themeDraft/textColor}" valueLiveUpdate="true" liveChange=".onThemeDraftChange" maxLength="7" placeholder="#102A43"/>
+                <landing:ColorSwatch color="{landing>/themeDraft/textColor}" width="2.25rem" press=".onOpenColorPicker" tooltip="{i18n>themeChooseColor}" class="themeColorSwatchButton"/>
+              </HBox>
+              <Label text="{i18n>themeHeadingColor}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>/themeDraft/headingColor}" valueLiveUpdate="true" liveChange=".onThemeDraftChange" maxLength="7" placeholder="#102A43"/>
+                <landing:ColorSwatch color="{landing>/themeDraft/headingColor}" width="2.25rem" press=".onOpenColorPicker" tooltip="{i18n>themeChooseColor}" class="themeColorSwatchButton"/>
+              </HBox>
+              <Label text="{i18n>themeAccentColor}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>/themeDraft/accentColor}" valueLiveUpdate="true" liveChange=".onThemeDraftChange" maxLength="7" placeholder="#1B9C8F"/>
+                <landing:ColorSwatch color="{landing>/themeDraft/accentColor}" width="2.25rem" press=".onOpenColorPicker" tooltip="{i18n>themeChooseColor}" class="themeColorSwatchButton"/>
+              </HBox>
+              <Label text="{i18n>themeLinkColor}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>/themeDraft/linkColor}" valueLiveUpdate="true" liveChange=".onThemeDraftChange" maxLength="7" placeholder="#0A6ED1"/>
+                <landing:ColorSwatch color="{landing>/themeDraft/linkColor}" width="2.25rem" press=".onOpenColorPicker" tooltip="{i18n>themeChooseColor}" class="themeColorSwatchButton"/>
+              </HBox>
+              <Label text="{i18n>themeBorderColor}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>/themeDraft/borderColor}" valueLiveUpdate="true" liveChange=".onThemeDraftChange" maxLength="7" placeholder="#D5E2EC"/>
+                <landing:ColorSwatch color="{landing>/themeDraft/borderColor}" width="2.25rem" press=".onOpenColorPicker" tooltip="{i18n>themeChooseColor}" class="themeColorSwatchButton"/>
+              </HBox>
+            </f:SimpleForm>
+          </IconTabFilter>
+
+          <IconTabFilter key="button" text="{i18n>buttonProperties}" icon="sap-icon://pushpin-on">
+            <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" columnsXL="1" columnsL="1" class="themeEditorForm">
+              <Label text="{i18n>themeButtonBackground}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>/themeDraft/buttonBackgroundColor}" valueLiveUpdate="true" liveChange=".onThemeDraftChange" maxLength="7" placeholder="#0A6ED1"/>
+                <landing:ColorSwatch color="{landing>/themeDraft/buttonBackgroundColor}" width="2.25rem" press=".onOpenColorPicker" tooltip="{i18n>themeChooseColor}" class="themeColorSwatchButton"/>
+              </HBox>
+              <Label text="{i18n>themeButtonText}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>/themeDraft/buttonTextColor}" valueLiveUpdate="true" liveChange=".onThemeDraftChange" maxLength="7" placeholder="#FFFFFF"/>
+                <landing:ColorSwatch color="{landing>/themeDraft/buttonTextColor}" width="2.25rem" press=".onOpenColorPicker" tooltip="{i18n>themeChooseColor}" class="themeColorSwatchButton"/>
+              </HBox>
+              <Label text="{i18n>themeButtonBorder}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>/themeDraft/buttonBorderColor}" valueLiveUpdate="true" liveChange=".onThemeDraftChange" maxLength="7" placeholder="#0A6ED1"/>
+                <landing:ColorSwatch color="{landing>/themeDraft/buttonBorderColor}" width="2.25rem" press=".onOpenColorPicker" tooltip="{i18n>themeChooseColor}" class="themeColorSwatchButton"/>
+              </HBox>
+            </f:SimpleForm>
+          </IconTabFilter>
+
+          <IconTabFilter key="background" text="{i18n>themeImageOverlay}" icon="sap-icon://picture">
+            <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" columnsXL="1" columnsL="1" class="themeEditorForm">
+              <Label text="{i18n>themeOverlayColor}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>/themeDraft/overlayColor}" valueLiveUpdate="true" liveChange=".onThemeDraftChange" maxLength="7" placeholder="#04121F"/>
+                <landing:ColorSwatch color="{landing>/themeDraft/overlayColor}" width="2.25rem" press=".onOpenColorPicker" tooltip="{i18n>themeChooseColor}" class="themeColorSwatchButton"/>
+              </HBox>
+              <Label text="{i18n>themeOverlayOpacity}"/>
+              <StepInput value="{landing>/themeDraft/overlayOpacity}" min="0" max="100" step="1" change=".onThemeDraftChange"/>
+              <Text text="{i18n>themeColorHint}" wrapping="true" class="sapUiSmallMarginTop"/>
+            </f:SimpleForm>
+          </IconTabFilter>
+        </items>
+      </IconTabBar>
+      <OverflowToolbar class="themeEditorActions">
+        <ToolbarSpacer/>
+        <Button text="{i18n>themeCreateAction}" type="Emphasized" press=".onCreateTheme"/>
+        <Button text="{i18n>cancelChanges}" press=".onCancelTheme"/>
+      </OverflowToolbar>
+    </landing:content>
+  </landing:FloatingPanel>
+</core:FragmentDefinition>

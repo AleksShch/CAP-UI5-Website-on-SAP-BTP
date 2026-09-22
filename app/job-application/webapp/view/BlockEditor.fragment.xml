@@ -1,0 +1,191 @@
+<core:FragmentDefinition
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:landing="job.application.control"
+  xmlns:f="sap.ui.layout.form"
+  xmlns:u="sap.ui.unified"
+  xmlns:rte="sap.ui.richtexteditor">
+  <landing:FloatingPanel
+    id="blockEditorPanel"
+    visible="{ui>/blockEditorOpen}"
+    width="64rem"
+    tooltip="{i18n>resizeEditorHint}"
+    class="blockEditorSidePanel">
+    <landing:layoutData>
+      <FlexItemData growFactor="0" shrinkFactor="0"/>
+    </landing:layoutData>
+    <landing:headerToolbar>
+      <OverflowToolbar tooltip="{i18n>moveEditorHint}" class="blockEditorDragHandle">
+        <Title text="{= ${i18n>blockSettings} + ' — ' + ${i18n>blockTitle} + ' ' + (${landing>sortOrder} / 10) }" level="H3"/>
+        <ToolbarSpacer/>
+        <Button icon="sap-icon://decline" type="Transparent" tooltip="{i18n>cancelChanges}" press=".onCancelBlockEditor"/>
+      </OverflowToolbar>
+    </landing:headerToolbar>
+    <landing:content>
+      <IconTabBar expandable="false" class="blockEditorTabs">
+        <items>
+          <IconTabFilter key="block" text="{i18n>blockProperties}" icon="sap-icon://dimension">
+            <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" columnsXL="2" columnsL="2" class="blockEditorForm">
+              <Label text="{i18n>blockTag}" tooltip="{i18n>blockTagHint}"/>
+              <Input value="{landing>blockTag}" placeholder="#kontakt" tooltip="{i18n>blockTagHint}"/>
+              <Label text="{i18n>blockHeight}" tooltip="{i18n>blockHeightHint}"/>
+              <Input value="{landing>blockHeight}" valueLiveUpdate="true" placeholder="30rem, 600px, 70vh" tooltip="{i18n>blockHeightHint}"/>
+              <Label text="{i18n>contentWidth}" tooltip="{i18n>contentWidthHint}"/>
+              <Input value="{landing>contentWidth}" valueLiveUpdate="true" placeholder="84rem, 1200px, 100%" tooltip="{i18n>contentWidthHint}"/>
+              <Label text="{i18n>paddingTop}" tooltip="{i18n>paddingTopHint}"/>
+              <Input value="{landing>paddingTop}" valueLiveUpdate="true" placeholder="auto, 3rem, 24px, 5%" tooltip="{i18n>paddingTopHint}"/>
+              <Label text="{i18n>paddingRight}" tooltip="{i18n>paddingRightHint}"/>
+              <Input value="{landing>paddingRight}" valueLiveUpdate="true" placeholder="auto, 3rem, 24px, 5%" tooltip="{i18n>paddingRightHint}"/>
+              <Label text="{i18n>paddingBottom}" tooltip="{i18n>paddingBottomHint}"/>
+              <Input value="{landing>paddingBottom}" valueLiveUpdate="true" placeholder="auto, 3rem, 24px, 5%" tooltip="{i18n>paddingBottomHint}"/>
+              <Label text="{i18n>paddingLeft}" tooltip="{i18n>paddingLeftHint}"/>
+              <Input value="{landing>paddingLeft}" valueLiveUpdate="true" placeholder="auto, 3rem, 24px, 5%" tooltip="{i18n>paddingLeftHint}"/>
+              <Label text="{i18n>blockWidth}" tooltip="{i18n>blockWidthHint}"/>
+              <Select selectedKey="{landing>blockWidth}" tooltip="{i18n>blockWidthHint}">
+                <core:Item key="full" text="{i18n>blockWidthFull}"/>
+                <core:Item key="half" text="{i18n>blockWidthHalf}"/>
+                <core:Item key="third" text="{i18n>blockWidthThird}"/>
+                <core:Item key="quarter" text="{i18n>blockWidthQuarter}"/>
+              </Select>
+              <Label text="{i18n>blockTheme}" tooltip="{i18n>blockThemeHint}"/>
+              <Select selectedKey="{path: 'landing>theme', mode: 'OneWay'}" items="{landing>/themeOptions}" change=".onThemeChange" tooltip="{i18n>blockThemeHint}">
+                <core:Item key="{landing>key}" text="{landing>text}"/>
+              </Select>
+              <Label text="{i18n>parentBlock}" tooltip="{i18n>parentBlockHint}"/>
+              <Select selectedKey="{landing>parentBlockId}" items="{landing>/parentOptions}" change=".onParentBlockChange" tooltip="{i18n>parentBlockHint}">
+                <core:Item key="{landing>ID}" text="{landing>label}"/>
+              </Select>
+              <Label visible="{= !!${landing>parentBlockId} }" text="{i18n>nestedX}" tooltip="{i18n>nestedXHint}"/>
+              <StepInput visible="{= !!${landing>parentBlockId} }" value="{landing>nestedX}" min="0" max="99" step="1" change=".onNestedGeometryChange" tooltip="{i18n>nestedXHint}"/>
+              <Label visible="{= !!${landing>parentBlockId} }" text="{i18n>nestedY}" tooltip="{i18n>nestedYHint}"/>
+              <StepInput visible="{= !!${landing>parentBlockId} }" value="{landing>nestedY}" min="0" max="99" step="1" change=".onNestedGeometryChange" tooltip="{i18n>nestedYHint}"/>
+              <Label visible="{= !!${landing>parentBlockId} }" text="{i18n>nestedWidth}" tooltip="{i18n>nestedWidthHint}"/>
+              <StepInput visible="{= !!${landing>parentBlockId} }" value="{landing>nestedWidth}" min="1" max="100" step="1" change=".onNestedGeometryChange" tooltip="{i18n>nestedWidthHint}"/>
+              <Label visible="{= !!${landing>parentBlockId} }" text="{i18n>nestedHeight}" tooltip="{i18n>nestedHeightHint}"/>
+              <StepInput visible="{= !!${landing>parentBlockId} }" value="{landing>nestedHeight}" min="1" max="100" step="1" change=".onNestedGeometryChange" tooltip="{i18n>nestedHeightHint}"/>
+              <Label visible="{= !!${landing>parentBlockId} }" text="{i18n>transparentBackground}" tooltip="{i18n>transparentBackgroundHint}"/>
+              <Switch visible="{= !!${landing>parentBlockId} }" state="{landing>transparentBackground}" customTextOn="{i18n>yes}" customTextOff="{i18n>no}" tooltip="{i18n>transparentBackgroundHint}"/>
+            </f:SimpleForm>
+          </IconTabFilter>
+
+          <IconTabFilter key="text" text="{i18n>textProperties}" icon="sap-icon://text-formatting">
+            <VBox class="blockEditorSection">
+              <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" columnsXL="1" columnsL="1">
+                <Label text="{i18n>textAlignment}" tooltip="{i18n>textAlignmentHint}"/>
+                <Select selectedKey="{landing>textAlign}" tooltip="{i18n>textAlignmentHint}">
+                  <core:Item key="left" text="{i18n>alignLeft}"/>
+                  <core:Item key="center" text="{i18n>alignCenter}"/>
+                  <core:Item key="right" text="{i18n>alignRight}"/>
+                </Select>
+              </f:SimpleForm>
+              <Label text="{i18n>formattedText}" tooltip="{i18n>formattedTextHint}" class="sapUiSmallMarginBegin sapUiTinyMarginTop"/>
+              <rte:RichTextEditor value="{landing>textHtml}" width="100%" height="26rem" sanitizeValue="true" showGroupFont="true" showGroupLink="true" showGroupInsert="false" tooltip="{i18n>formattedTextHint}" class="sapUiSmallMarginTop"/>
+            </VBox>
+          </IconTabFilter>
+
+          <IconTabFilter key="image" text="{i18n>imageProperties}" icon="sap-icon://picture">
+            <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" columnsXL="2" columnsL="2" class="blockEditorForm">
+              <Label text="{i18n>imageUrl}" tooltip="{i18n>imageUrlHint}"/>
+              <Input value="{landing>imageUrl}" placeholder="/path/image.jpg oder https://…" tooltip="{i18n>imageUrlHint}"/>
+              <Label text="{i18n>imageUpload}" tooltip="{i18n>imageUploadHint}"/>
+              <u:FileUploader width="100%" fileType="png,jpg,jpeg,webp" maximumFileSize="5" placeholder="{i18n>imageUploadPlaceholder}" tooltip="{i18n>imageUploadHint}" change=".onBlockImageUpload" typeMissmatch=".onUploadError" fileSizeExceed=".onUploadError"/>
+              <Label text="{i18n>imageAlt}" tooltip="{i18n>imageAltHint}"/>
+              <Input value="{landing>imageAlt}" tooltip="{i18n>imageAltHint}"/>
+              <Label text="{i18n>imageWidth}" tooltip="{i18n>imageWidthHint}"/>
+              <Input value="{landing>imageWidth}" placeholder="44%, 32rem, 640px" tooltip="{i18n>imageWidthHint}"/>
+              <Label text="{i18n>imageHeight}" tooltip="{i18n>imageHeightHint}"/>
+              <Input value="{landing>imageHeight}" placeholder="60%, 28rem, 480px" tooltip="{i18n>imageHeightHint}"/>
+              <Label text="{i18n>imagePosition}" tooltip="{i18n>imagePositionHint}"/>
+              <Select selectedKey="{landing>imagePosition}" tooltip="{i18n>imagePositionHint}">
+                <core:Item key="background" text="{i18n>positionBackground}"/>
+                <core:Item key="left" text="{i18n>positionLeft}"/>
+                <core:Item key="right" text="{i18n>positionRight}"/>
+                <core:Item key="top" text="{i18n>positionTop}"/>
+              </Select>
+              <Label text="{i18n>imageFit}" tooltip="{i18n>imageFitHint}"/>
+              <Select selectedKey="{landing>imageFit}" tooltip="{i18n>imageFitHint}">
+                <core:Item key="cover" text="Cover"/>
+                <core:Item key="contain" text="Contain"/>
+              </Select>
+              <Label visible="{= ${landing>imagePosition} === 'background' }" text="{i18n>backgroundCrop}" tooltip="{i18n>backgroundCropHint}"/>
+              <Select visible="{= ${landing>imagePosition} === 'background' }" selectedKey="{landing>backgroundCrop}" tooltip="{i18n>backgroundCropHint}">
+                <core:Item key="auto" text="{i18n>cropAuto}"/>
+                <core:Item key="cropHeight" text="{i18n>cropHeight}"/>
+                <core:Item key="cropWidth" text="{i18n>cropWidth}"/>
+              </Select>
+            </f:SimpleForm>
+          </IconTabFilter>
+
+          <IconTabFilter key="menu" text="{i18n>menuProperties}" icon="sap-icon://menu2">
+            <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" columnsXL="1" columnsL="1" class="blockEditorForm">
+              <Label text="{i18n>menuItems}" tooltip="{i18n>menuItemsHint}"/>
+              <TextArea value="{landing>menuItems}" valueLiveUpdate="true" liveChange=".onMenuItemsChange" rows="8" placeholder="{i18n>menuItemsPlaceholder}" tooltip="{i18n>menuItemsHint}"/>
+              <Label text="{i18n>menuOrientation}" tooltip="{i18n>menuOrientationHint}"/>
+              <Select selectedKey="{landing>menuOrientation}" tooltip="{i18n>menuOrientationHint}">
+                <core:Item key="horizontal" text="{i18n>menuHorizontal}"/>
+                <core:Item key="vertical" text="{i18n>menuVertical}"/>
+              </Select>
+              <Label text="{i18n>menuGap}" tooltip="{i18n>menuGapHint}"/>
+              <Input value="{landing>menuGap}" valueLiveUpdate="true" placeholder="1.5rem, 24px" tooltip="{i18n>menuGapHint}"/>
+              <Label text="{i18n>menuFontSize}" tooltip="{i18n>menuFontSizeHint}"/>
+              <Input value="{landing>menuFontSize}" valueLiveUpdate="true" placeholder="1rem, 18px" tooltip="{i18n>menuFontSizeHint}"/>
+              <Label text="{i18n>menuTextColor}" tooltip="{i18n>menuTextColorHint}"/>
+              <HBox width="100%" alignItems="Center" class="themeColorField">
+                <Input value="{landing>menuTextColor}" valueLiveUpdate="true" maxLength="7" placeholder="#0A6ED1" tooltip="{i18n>menuTextColorHint}"/>
+                <landing:ColorSwatch
+                  color="{parts: [{path: 'landing>menuTextColor'}, {path: 'landing>theme'}], formatter: '.formatMenuColor'}"
+                  width="2.25rem"
+                  press=".onOpenMenuColorPicker"
+                  tooltip="{i18n>themeChooseColor}"
+                  class="themeColorSwatchButton"/>
+              </HBox>
+              <Label text="{i18n>menuTextEffect}" tooltip="{i18n>menuTextEffectHint}"/>
+              <Select selectedKey="{landing>menuTextEffect}" tooltip="{i18n>menuTextEffectHint}">
+                <core:Item key="none" text="{i18n>menuEffectNone}"/>
+                <core:Item key="shadow" text="{i18n>menuEffectShadow}"/>
+                <core:Item key="outline" text="{i18n>menuEffectOutline}"/>
+                <core:Item key="glow" text="{i18n>menuEffectGlow}"/>
+              </Select>
+            </f:SimpleForm>
+          </IconTabFilter>
+
+          <IconTabFilter key="button" text="{i18n>buttonProperties}" icon="sap-icon://pushpin-on">
+            <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" columnsXL="2" columnsL="2" class="blockEditorForm">
+              <Label text="{i18n>buttonText}" tooltip="{i18n>buttonTextHint}"/>
+              <Input value="{landing>buttonText}" tooltip="{i18n>buttonTextHint}"/>
+              <Label text="{i18n>buttonUrl}" tooltip="{i18n>buttonUrlHint}"/>
+              <Input value="{landing>buttonUrl}" placeholder="#kontakt, /search oder https://…" tooltip="{i18n>buttonUrlHint}"/>
+              <Label text="{i18n>buttonStyle}" tooltip="{i18n>buttonStyleHint}"/>
+              <Select selectedKey="{landing>buttonType}" tooltip="{i18n>buttonStyleHint}">
+                <core:Item key="Emphasized" text="Emphasized"/>
+                <core:Item key="Default" text="Default"/>
+                <core:Item key="Transparent" text="Transparent"/>
+                <core:Item key="Attention" text="Attention"/>
+                <core:Item key="Success" text="Success"/>
+                <core:Item key="Negative" text="Negative"/>
+              </Select>
+              <Label text="{i18n>buttonWidth}" tooltip="{i18n>buttonWidthHint}"/>
+              <Input value="{landing>buttonWidth}" placeholder="auto, 13rem, 100%" tooltip="{i18n>buttonWidthHint}"/>
+              <Label text="{i18n>buttonHeight}" tooltip="{i18n>buttonHeightHint}"/>
+              <Input value="{landing>buttonHeight}" valueLiveUpdate="true" placeholder="auto, 3.25rem, 52px" tooltip="{i18n>buttonHeightHint}"/>
+              <Label text="{i18n>buttonBorderRadius}" tooltip="{i18n>buttonBorderRadiusHint}"/>
+              <Input value="{landing>buttonBorderRadius}" valueLiveUpdate="true" placeholder="0, 0.25rem, 8px, 50%" tooltip="{i18n>buttonBorderRadiusHint}"/>
+              <Label text="{i18n>buttonAlignment}" tooltip="{i18n>buttonAlignmentHint}"/>
+              <Select selectedKey="{landing>buttonAlign}" tooltip="{i18n>buttonAlignmentHint}">
+                <core:Item key="inherit" text="{i18n>buttonAlignInherit}"/>
+                <core:Item key="left" text="{i18n>alignLeft}"/>
+                <core:Item key="center" text="{i18n>alignCenter}"/>
+                <core:Item key="right" text="{i18n>alignRight}"/>
+              </Select>
+            </f:SimpleForm>
+          </IconTabFilter>
+        </items>
+      </IconTabBar>
+      <OverflowToolbar class="blockEditorActions">
+        <ToolbarSpacer/>
+        <Button text="{i18n>saveChanges}" icon="sap-icon://save" type="Emphasized" press=".onSaveBlockEditor"/>
+        <Button text="{i18n>cancelChanges}" press=".onCancelBlockEditor"/>
+      </OverflowToolbar>
+    </landing:content>
+  </landing:FloatingPanel>
+</core:FragmentDefinition>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 760" role="img" aria-labelledby="title desc">
+  <title id="title">Zusammenarbeit im Team</title>
+  <desc id="desc">Abstrakte Illustration von drei Personen bei der Zusammenarbeit</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e7f5f3"/><stop offset="1" stop-color="#dbeaff"/></linearGradient></defs>
+  <rect width="900" height="760" rx="42" fill="url(#bg)"/>
+  <circle cx="710" cy="125" r="82" fill="#f2a900" opacity=".8"/>
+  <path d="M80 625h740v58H80z" fill="#18364f" opacity=".16"/>
+  <path d="M180 555h540l-58 94H238z" fill="#fff"/><path d="M205 555h490l-35 25H240z" fill="#0a6ed1" opacity=".18"/>
+  <g transform="translate(120 170)"><circle cx="105" cy="88" r="64" fill="#efc2a4"/><path d="M44 83c4-82 125-89 129-4-48-13-73-41-83-65-5 29-21 52-46 69z" fill="#20354a"/><path d="M12 386c8-143 31-223 95-223 69 0 101 81 108 223z" fill="#0a6ed1"/></g>
+  <g transform="translate(345 120)"><circle cx="105" cy="92" r="64" fill="#9d654d"/><path d="M43 79c10-76 128-82 132 7-33-9-65-27-87-57-8 25-22 40-45 50z" fill="#151d27"/><path d="M8 435c7-157 32-246 98-246 71 0 102 89 110 246z" fill="#31c4b4"/></g>
+  <g transform="translate(585 190)"><circle cx="82" cy="81" r="58" fill="#e5ad86"/><path d="M28 76c2-71 111-79 117 0-36-6-65-28-82-52-5 24-16 40-35 52z" fill="#7a4935"/><path d="M-3 366c6-135 25-211 87-211 64 0 91 76 98 211z" fill="#f2a900"/></g>
+</svg>

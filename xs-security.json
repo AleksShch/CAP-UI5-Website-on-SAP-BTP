@@ -1,0 +1,39 @@
+{
+  "xsappname": "cap-job-application-sympacon_TS_GmbH_sap-build3-ozyx5bih-dev",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.ApplicationAdmin",
+      "description": "Manage the career landing page and read job application metadata"
+    }
+  ],
+  "attributes": [],
+  "oauth2-configuration": {
+    "credential-types": [
+      "binding-secret",
+      "x509"
+    ],
+    "redirect-uris": [
+      "https://sympacon-ts-gmbh-sap-build3-ozyx5bih-dev-cap-job-applic115d6e1a.cfapps.us10-001.hana.ondemand.com/**"
+    ]
+  },
+  "role-templates": [
+    {
+      "name": "ApplicationAdmin",
+      "description": "Administrator access to landing page content and job application metadata",
+      "scope-references": [
+        "$XSAPPNAME.ApplicationAdmin"
+      ],
+      "attribute-references": []
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "HRBewerbung Administrators",
+      "description": "Administrators who can manage the career landing page and read job application metadata",
+      "role-template-references": [
+        "$XSAPPNAME.ApplicationAdmin"
+      ]
+    }
+  ]
+}
